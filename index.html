@@ -1,0 +1,68 @@
+<html>
+<head>
+<style>
+#profiles {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#profiles td, #profiles th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#profiles tr:nth-child(even){background-color: #f2f2f2;}
+
+#profiles tr:hover {background-color: #ddd;}
+
+#profiles th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<table id="profiles">
+  <tr>
+    <th>Profile</th>
+    <th>Minimum Rank</th>
+    <th>Time</th>
+  </tr>
+</table>
+
+
+<script>
+var webSocket = new WebSocket("ws://localhost:9000");
+
+webSocket.onmessage = function (messageEvent){
+
+    var msgReceivedSplitted = messageEvent.data.split("|");
+
+    // Add a new row
+
+    var newRow = document.createElement("tr");
+    var profileTh = document.createElement("td");
+    profileTh.innerText = msgReceivedSplitted[0];
+    newRow.appendChild(profileTh);
+
+    var rankTh = document.createElement("td");
+    rankTh.innerText = msgReceivedSplitted[1];
+    newRow.appendChild(rankTh);
+
+    var timeTh = document.createElement("td");
+    timeTh.innerText = "<1min";
+    newRow.appendChild(timeTh);
+
+    document.getElementById("profiles").children[0].appendChild(newRow);
+
+    console.log(event.data);
+}
+</script>
+
+</body>
+</html>
