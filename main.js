@@ -24,7 +24,7 @@ var ranksObj = {
     "silver elite":"Silver Elite",
     "se": "Silver Elite",
     "sem":"Silver Elite Master",
-    "s1":"Gold 1",
+    "g1":"Gold 1",
     "gn1": "Gold 1",
     "gold1":"Gold 1",
     "gold 1":"Gold 1",
