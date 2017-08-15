@@ -1,8 +1,12 @@
 // Necessary modules
 const irc = require("irc"); // connecting to the Twitch chat
 const Regex = require("regex"); 
+const http = require("http");
 const express = require("express"); // http server
 const websocket = require("ws"); // websocket communication
+const path = require("path");
+
+const config = require("./config.json");
 
 // Regular Expressions definitions
 var profileLinkRegex = /(http:\/\/|https:\/\/)*steamcommunity\.com\/(id|profiles)\/[a-zA-Z0-9]*\/*/;
@@ -62,18 +66,18 @@ console.log(ranksRegex.exec("https://steamcommunity.com/profiles/765611982725915
 */
 
 // Create the configuration
-var config = {
-    channels: ["#" + process.argv[2]],
+var botconfig = {
+    channels: ["#" + config.channel],
 	server: "irc.chat.twitch.tv",
-	nick: process.argv[3],
-    password: process.argv[4]
+	nick: config.nickname,
+    password: config.chatpassword
 };
 
 // Create the bot
-var bot = new irc.Client(config.server, config.nick, {
-channels: [config.channels + " " + config.password], 
-password: config.password,
-username: config.nick
+var bot = new irc.Client(botconfig.server, botconfig.nick, {
+channels: [botconfig.channels + " " + botconfig.password], 
+password: botconfig.password,
+username: botconfig.nick
 });
 
 console.log("starting bot");
@@ -108,23 +112,25 @@ bot.addListener('error', function(message) {
     console.log('error: ', message);
 });
 
-bot.join(config.channels[0] + " " + config.password);
+bot.join(botconfig.channels[0] + " " + botconfig.password);
 
 // Create the webapp
 
 var webapp = express();
 
-webapp.listen(8082, function () {
-    console.log("Server listening...");
-});
+
+// static directories
+webapp.use(express.static(path.join(__dirname, 'public')));
 
 webapp.get('/', function(req, res){
-    res.send("hello world");
+    res.sendFile('index.html');
 });
+
+const server = http.createServer(webapp);
 
 // Connect to the websocket
 
-const ws = new websocket.Server({ port: 9000 });
+const ws = new websocket.Server({ server});
 
 ws.on('connection', function connection(ws, req) {
   console.log("New connection from " + req.connection.remoteAddress);
@@ -142,3 +148,7 @@ ws.broadcast = function broadcast(data) {
         }
     });
 };
+
+server.listen(process.env.PORT || 8082, function () {
+    console.log('Listening on %d', server.address().port);
+});
