@@ -34,8 +34,7 @@ webSocket.onmessage = function (messageEvent){
         newRow.style.display = "none";
     } 
 
-    document.getElementById("profiles").children[0].appendChild(newRow);
-
+    document.getElementById("profiles").insertBefore(newRow, document.getElementById("profiles").children[1]);
 
     console.log(event.data);
 }

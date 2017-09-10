@@ -58,12 +58,15 @@ var ranksObj = {
     "ge": "Global Elite" 
 };
 
+
+
 // Simple tests
 /*
 console.log(profileLinkRegex.exec("http://steamcommunity.com/id/prokpt/")[0]);
 console.log(profileLinkRegex.exec("https://steamcommunity.com/profiles/76561198272591554/")[0]);
 console.log(ranksRegex.exec("https://steamcommunity.com/profiles/76561198272591554/ pessoal add para jogar em globalito"));
 */
+
 
 // Create the configuration
 var botconfig = {
