@@ -1,9 +1,15 @@
 <html>
 <head>
+    <title>CSGO PT Finder</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="webJS.js"></script>
 </head>
 <body>
+
+<header>
+    <h2>CSGO PT Finder</h2>
+</header>
+
 <div id="content">
     <table id="profiles">
       <tr class="show">
@@ -14,6 +20,9 @@
     </table>
 
     <div id="filters">
+        <div id="filTitle">
+            <b>Filter by rank</b>
+        </div>
         <ul>
             <li><input type="checkbox" onclick="filterRanks(this);" checked name="rank" id="Silver 1">Silver 1</li>
             <li><input type="checkbox" onclick="filterRanks(this);" checked name="rank" id="Silver 2">Silver 2</li>
