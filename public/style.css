@@ -1,5 +1,19 @@
-#profiles {
+body {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+header{
+    text-align: center;
+}
+
+footer{
+    background-color: #5e338e;
+    color:white;
+    text-align: center;
+}
+
+#profiles {
+    
     border-collapse: collapse;
     width: 80%;
     float: left;
@@ -27,9 +41,11 @@
     width: 19%;
     float: right;
     border: 1px solid #ddd;
+
 }
 
-li {
-    list-style: none;
-
+#filTitle{
+    background-color: #4CAF50;
+    color:white;
+    padding: 12 8;
 }
