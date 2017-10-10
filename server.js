@@ -67,6 +67,10 @@ console.log(profileLinkRegex.exec("https://steamcommunity.com/profiles/765611982
 console.log(ranksRegex.exec("https://steamcommunity.com/profiles/76561198272591554/ pessoal add para jogar em globalito"));
 */
 
+//Caching structure  
+var userSet = {};
+const cooldownTimer = 5; //minutes
+
 
 // Create the configuration
 var botconfig = {
@@ -105,7 +109,20 @@ bot.addListener('message', function (from, to, message) {
             var messageToSend = hasProfile[0] + "|" + ranksObj[neededRank[1].toLowerCase()];
             //console.log("We need rank %s add at: %s",neededRank[0],hasProfile[0]);
 
-            ws.broadcast(messageToSend);
+            var currTime = new Date();
+
+            if(userSet[hasProfile[0]]){
+                // if 5min have passed since this user profile was published
+                if(currTime - userSet[hasProfile[0]] > (cooldownTimer*60*1000)){
+                    userSet[hasProfile[0]] = new Date();
+                    ws.broadcast(messageToSend);
+                }
+            }else{
+                userSet[hasProfile[0]] = new Date();
+                ws.broadcast(messageToSend);
+            }
+
+            
         }
     }
     //console.log(from + ' => ' + to + ': ' + message);
