@@ -71,6 +71,7 @@ console.log(ranksRegex.exec("https://steamcommunity.com/profiles/765611982725915
 var userSet = {};
 const cooldownTimer = 5; //minutes
 
+var priorityQueue = [];
 
 // Create the configuration
 var botconfig = {
@@ -116,10 +117,12 @@ bot.addListener('message', function (from, to, message) {
                 if(currTime - userSet[hasProfile[0]] > (cooldownTimer*60*1000)){
                     userSet[hasProfile[0]] = new Date();
                     ws.broadcast(messageToSend);
+                    priorityQueue[nextCachePosition][priorityQueue[nextCachePosition].length] = messageToSend;
                 }
             }else{
                 userSet[hasProfile[0]] = new Date();
                 ws.broadcast(messageToSend);
+                priorityQueue[nextCachePosition][priorityQueue[nextCachePosition].length] = messageToSend;
             }
 
             
@@ -155,6 +158,13 @@ const ws = new websocket.Server({ server});
 ws.on('connection', function connection(ws, req) {
   console.log("New connection from " + req.connection.remoteAddress);
 
+  for(var i = 0; i < priorityQueue.length; i++){
+    for(var j = 0; j < priorityQueue[i].length; j++){
+        ws.send(priorityQueue[i][j]);
+    }
+  }
+
+
 });
 
 /*
@@ -172,3 +182,25 @@ ws.broadcast = function broadcast(data) {
 server.listen(process.env.PORT || 8082, function () {
     console.log('Listening on %d', server.address().port);
 });
+
+
+var nextCachePosition = 0;
+priorityQueue[nextCachePosition] = [];
+
+/*
+ * Cleans the oldest entries in the message cache.
+ */
+function cacheCleaner() {
+  nextCachePosition++;
+  if(nextCachePosition == cooldownTimer){
+    nextCachePosition = 0;
+  }
+
+  priorityQueue[nextCachePosition] = [];
+}
+
+
+// Clean the cache every minute
+setInterval(cacheCleaner, 60000);
+
+
