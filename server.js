@@ -124,8 +124,6 @@ bot.addListener('message', function (from, to, message) {
                 ws.broadcast(messageToSend);
                 priorityQueue[nextCachePosition][priorityQueue[nextCachePosition].length] = messageToSend;
             }
-
-            
         }
     }
     //console.log(from + ' => ' + to + ': ' + message);
