@@ -1,5 +1,7 @@
 body {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    background-color: #525252;
+    color: white;
 }
 
 header{
@@ -13,7 +15,6 @@ footer{
 }
 
 #profiles {
-    
     border-collapse: collapse;
     width: 80%;
     float: left;
@@ -24,17 +25,16 @@ footer{
     padding: 8px;
 }
 
-#profiles tr:nth-child(even){background-color: #f2f2f2;}
-
-#profiles tr:hover {background-color: #ddd;}
-
-
 #profiles th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #ca3e47;
+}
+
+#profiles td {
+    color:black;
+    background-color: #f2f2f2;
 }
 
 #filters {
@@ -44,12 +44,16 @@ footer{
 
 }
 
+ul {
+    margin: 0;
+    padding: 4;
+}
+
 li {
     list-style: none;
 }
 
 #filTitle{
-    background-color: #4CAF50;
-    color:white;
+    background-color: #ca3e47;
     padding: 12 8;
 }
