@@ -1,8 +1,17 @@
 var webSocket = new WebSocket("ws://localhost:8082");
 
+boolean hasZeroProfiles = true;
+
 webSocket.onmessage = function (messageEvent){
 
     var msgReceivedSplitted = messageEvent.data.split("|");
+
+    // Remove zeroProfiles message
+    if (hasZeroProfiles) {
+        var noProfilesMsg = document.getElementById("noProfilesTd");
+        noProfilesMsg.style.display == "none";
+        hasZeroProfiles = false;
+    }
 
     // Add a new row
 
@@ -36,7 +45,6 @@ webSocket.onmessage = function (messageEvent){
 
     document.getElementById("profiles").insertBefore(newRow, document.getElementById("profiles").children[1]);
 
-    console.log(event.data);
 }
 
 function filterRanks(checkboxData) {
