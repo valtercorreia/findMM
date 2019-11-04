@@ -75,7 +75,7 @@ var priorityQueue = [];
 
 // Create the configuration
 var botconfig = {
-    channels: ["#" + config.channel],
+    channels: config.channel,
 	server: "irc.chat.twitch.tv",
 	nick: config.nickname,
     password: config.chatpassword
@@ -83,9 +83,9 @@ var botconfig = {
 
 // Create the bot
 var bot = new irc.Client(botconfig.server, botconfig.nick, {
-channels: [botconfig.channels + " " + botconfig.password], 
-password: botconfig.password,
-username: botconfig.nick
+    channels: [botconfig.channels + " " + botconfig.password], 
+    password: botconfig.password,
+    username: botconfig.nick
 });
 
 console.log("starting bot");
@@ -95,7 +95,6 @@ console.log("starting bot");
 bot.addListener('message', function (from, to, message) {
 
     // Check if the chat message is important to us
-
     var hasProfile = profileLinkRegex.exec(message);
 
     if(hasProfile != null){
